@@ -15,6 +15,8 @@ def main():
     parser.add_argument("--explain-only", action="store_true", help="Only explain unused code, don't remove it")
     parser.add_argument("--patch", action="store_true", help="Generate a .patch file instead of saving cleaned file")
     parser.add_argument("--interactive", action="store_true", help="Prompt before deleting each item")
+    parser.add_argument("--explain", action="store_true", help="Use AI to explain why code is considered dead")
+
 
     args = parser.parse_args()
 
@@ -29,21 +31,19 @@ def main():
     # 🤖 AI-based explanation of unused functions
     explainer = DeadCodeAIExplainer()
 
-    for func_name in unused_funcs:
-        func_node = next(
-            (node for node in ast.walk(ast.parse(code)) if isinstance(node, ast.FunctionDef) and node.name == func_name),
-            None,
-        )
-        if func_node:
-            func_code = ast.get_source_segment(code, func_node)
-            start_line = func_node.lineno - 1
-            end_line = start_line + len(func_code.splitlines())
-
-            surrounding_code = code
-
-            full_context = f"""
-### Here is the surrounding code:
-{surrounding_code}
+    if args.explain:
+        explainer = DeadCodeAIExplainer()
+        for func_name in unused_funcs:
+            func_node = next(
+                (node for node in ast.walk(ast.parse(code)) if isinstance(node, ast.FunctionDef) and node.name == func_name),
+                None
+            )
+            if func_node:
+                func_code = ast.get_source_segment(code, func_node)
+                # Use full file as context
+                full_context = f"""
+### Here is the surrounding code for context:
+{code}
 
 Here is the dead Function code:
 {func_code}

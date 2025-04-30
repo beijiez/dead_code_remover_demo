@@ -29,6 +29,10 @@ python -m cleaner.cli --file examples/sample.py
 
 - `--file`: Path to the Python file to be analyzed and cleaned.
 - `--overwrite`: If specified, the original file will be overwritten with the cleaned version. Otherwise, a new file with `_cleaned` appended to the name will be created.
+- `--explain-only`: Only explain unused code without removing it.
+- `--patch`: Generate a `.patch` file instead of saving the cleaned file.
+- `--interactive`: Prompt before deleting each unused function or import.
+- `--explain`: Use AI to explain why code is considered dead.
 
 ### Example
 
@@ -52,23 +56,34 @@ result = used_function(5)
 
 Running the command:
 
+Produces explanations for unused functions and imports, will call an AI client. The current model is `EleutherAI/gpt-neo-1.3B`. 
+
 ```bash
-python -m cleaner.cli --file examples/sample.py
+python -m cleaner.cli --file examples/sample.py --explain
 ```
 
-Produces the cleaned file `examples/sample_cleaned.py`:
+To clean the file interactively:
 
-```python
-def used_function(x):
-    return x * 2
+```bash
+python -m cleaner.cli --file examples/sample.py --interactive
+```
 
-result = used_function(5)
+To generate a patch file:
+
+```bash
+python -m cleaner.cli --file examples/sample.py --patch
 ```
 
 To overwrite the original file instead:
 
 ```bash
 python -m cleaner.cli --file examples/sample.py --overwrite
+```
+
+The flags can be combined as well. For example:
+
+```bash
+python -m cleaner.cli --file examples/sample.py --overwrite --explain-only
 ```
 
 ## License
