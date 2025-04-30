@@ -6,7 +6,7 @@ class DeadCodeAIExplainer:
 
     def explain_dead_code(self, function_code: str):
         prompt = (
-            "### Task: Explain why the following Python function might be considered dead code.\n\n"
+            "### Task: Explain why the below dead Function code below is never executed, in one sentence.\n\n"
             f"{function_code}\n\n"
             "### Explanation: This function is never called, because \n"
         )
