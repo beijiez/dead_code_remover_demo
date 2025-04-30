@@ -14,6 +14,7 @@ def main():
     parser.add_argument("--overwrite", action="store_true", help="Overwrite the original file")
     parser.add_argument("--explain-only", action="store_true", help="Only explain unused code, don't remove it")
     parser.add_argument("--patch", action="store_true", help="Generate a .patch file instead of saving cleaned file")
+    parser.add_argument("--interactive", action="store_true", help="Prompt before deleting each item")
 
     args = parser.parse_args()
 
@@ -57,7 +58,7 @@ Here is the dead Function code:
         return
 
     # ✂️ Remove dead code
-    cleaned_code = remove_dead_code(code, analysis)
+    cleaned_code = remove_dead_code(code, analysis, interactive=args.interactive)
 
     if args.patch:
         original_lines = code.splitlines(keepends=True)
