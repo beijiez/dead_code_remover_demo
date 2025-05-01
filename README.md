@@ -2,6 +2,12 @@
 
 This project provides a tool to analyze and remove unused functions and imports from Python files. It helps keep your codebase clean and maintainable.
 
+## Potential for Growth
+
+- 🧪 CI/CD integration that scans pull requests
+- 🤖 GitHub bots that leave inline comments explaining why code should be removed
+- 🧩 VS Code plugin that highlight unused code live
+
 ## Features
 
 - Detects unused functions and imports in Python files.
